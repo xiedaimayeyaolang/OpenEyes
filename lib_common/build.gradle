@@ -1,0 +1,99 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'realm-android'
+android {
+    repositories {
+        google()
+        jcenter()
+//        flatDir {
+//            dirs 'libs', '../mvplib/libs'
+//        }
+    }
+    compileSdkVersion rootProject.ext.android.compileSdkVersion
+    defaultConfig {
+        minSdkVersion rootProject.ext.android.minSdkVersion
+        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        versionCode rootProject.ext.android.versionCode
+        versionName rootProject.ext.android.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+//        flatDir {
+//            dirs 'libs', '../mvplib/libs'
+//        }
+    }
+
+}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    api rootProject.ext.dependencies["appcompat-v7"]
+    api rootProject.ext.dependencies["recyclerview-v7"]
+    api rootProject.ext.dependencies["design"]
+    api rootProject.ext.dependencies["cardview"]
+    //json
+    api rootProject.ext.components["jackson-core"]
+    api rootProject.ext.components["jackson-databind"]
+    api rootProject.ext.components["jackson-annotations"]
+
+
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api 'com.android.support.constraint:constraint-layout:1.1.0'
+    // dagger
+
+    //multidex
+    api rootProject.ext.components["multidex"]
+
+    //glide
+    api rootProject.ext.components["glide"]
+//    api rootProject.ext.components["glide-transformations"]
+//    api rootProject.ext.components["gpuimage-library"]
+//    annotationProcessor rootProject.ext.components["glide-compiler"]
+
+    //Luban
+    api rootProject.ext.components["Luban"]
+
+    //rxjava
+    api rootProject.ext.components["rxjava"]
+    api rootProject.ext.components["rxandroid"]
+    api rootProject.ext.components["retrofit2-rxjava2-adapter"]
+
+    //circleimage
+    api rootProject.ext.components["circleimageview"]
+
+
+//    api rootProject.ext.components["statusbarutil"]
+    api rootProject.ext.components["flowlayout"]
+//    api rootProject.ext.components["greendao"]
+//    api rootProject.ext.components["gif-drawable"]
+    api rootProject.ext.components["SmartRefreshLayout"]
+//    api rootProject.ext.components["rxpermissions"]
+    api rootProject.ext.components["eventbus"]
+    api rootProject.ext.components["AdapterHelper"]
+//    api rootProject.ext.components["status-bar-compat"]
+//    api rootProject.ext.components["flexbox"]
+//    api rootProject.ext.components["PickerView"]
+//    api rootProject.ext.components["rxbinding"]
+//    api rootProject.ext.components["permissionsdispatcher"]
+//    api rootProject.ext.components["FlycoTabLayout_Lib"]
+//    api rootProject.ext.components["permissionsdispatcher"]
+
+}
