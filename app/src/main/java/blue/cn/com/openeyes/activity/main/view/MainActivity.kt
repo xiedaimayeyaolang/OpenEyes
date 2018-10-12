@@ -4,14 +4,17 @@ import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import blue.cn.com.mvp.BaseApp
 import blue.cn.com.mvp.di.module.NetModule
 import blue.cn.com.mvp.mvp.view.BaseActivity
 import blue.cn.com.mvp.util.bindView
+import blue.cn.com.mvp.util.onClick
 import blue.cn.com.openeyes.R
 import blue.cn.com.openeyes.Test
+import blue.cn.com.openeyes.activity.TempActivity
 import blue.cn.com.openeyes.activity.main.contract.IMainContract
 import blue.cn.com.openeyes.activity.main.presenter.MainPresenter
 import blue.cn.com.openeyes.di.DaggerActivityComponent
@@ -20,19 +23,22 @@ import blue.cn.com.openeyes.fragment.TextFragment
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.android.ActivityEvent
 import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayout.OnTabSelectedListener {
 
-    val main_tab: TabLayout by bindView(R.id.main_tab)
-    var tabSelectedPosition : Int = 0
-    val tabTexts = listOf("首页", "关注", "", "通知", "我的")
-    val tabIcons = listOf(R.drawable.main_tab_home,
+
+    private val main_tab: TabLayout by bindView(R.id.main_tab)
+    private val tab_main_center : ImageButton by bindView(R.id.tab_main_center)
+    private var tabSelectedPosition : Int = 0
+    private val tabTexts = listOf("首页", "关注", "", "通知", "我的")
+    private val tabIcons = listOf(R.drawable.main_tab_home,
             R.drawable.main_tab_follow,
             R.drawable.ic_main_dot,
             R.drawable.main_tab_notification,
             R.drawable.main_tab_profile)
-    lateinit var fragments: MutableList<Fragment>
+   private lateinit var fragments: MutableList<Fragment>
    private var currentFragment: Fragment? = null
 
     //    val text : TextView by bindView(R.id.text)
@@ -74,6 +80,7 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
     }
 
     override fun doNetWork() {
+        mPresenter.test()
     }
 
     override fun inject() =
@@ -85,6 +92,8 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
 
     override fun events() {
         main_tab.addOnTabSelectedListener(this)
+        tab_main_center.onClick { startActivity<TempActivity>() }
+
     }
 
     override fun onTabReselected(tab: TabLayout.Tab?) {
@@ -94,7 +103,7 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
     }
 
     override fun onTabSelected(tab: TabLayout.Tab) {
-        if (tab?.position == 2) {
+        if (tab.position == 2) {
             main_tab.getTabAt(tabSelectedPosition)?.select()
             return
         }else{
@@ -123,6 +132,6 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
                     .commit()
         }
         currentFragment = fragment
-
     }
+
 }

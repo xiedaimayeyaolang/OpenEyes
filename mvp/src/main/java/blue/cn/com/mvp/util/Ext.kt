@@ -14,6 +14,7 @@ import com.trello.rxlifecycle2.LifecycleTransformer
 import com.zhy.view.flowlayout.TagFlowLayout
 import com.zhy.view.flowlayout.TagView
 import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.observers.DisposableObserver
 
 fun android.view.View.onClick(l: (v: android.view.View?) -> Unit) {
@@ -79,7 +80,18 @@ fun <T : BaseModel> Observable<T>.mSubscribe(
             .compose(lifecycle)
             .subscribeWith(subscriber)
 }
-
+fun <T> Observable<T>.doSubscribe(
+        subscriber : DisposableObserver<T>,lifecycle : LifecycleTransformer<T>) {
+    this.compose(Rx.rxSchedulerHelper())
+            .compose(lifecycle)
+            .subscribeWith(subscriber)
+}
+fun <T> Observable<T>.doMSubscribe(
+        subscriber : Observer<T>, lifecycle : LifecycleTransformer<T>) {
+    this.compose(Rx.rxSchedulerHelper())
+            .compose(lifecycle)
+            .subscribeWith(subscriber)
+}
 fun <T : BaseModel> Observable<T>.mSubscribeWith(
         subscriber : DisposableObserver<T>,lifecycle : LifecycleTransformer<T>) {
     this.compose(Rx.rxSchedulerHelper())

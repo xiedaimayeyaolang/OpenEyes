@@ -1,13 +1,11 @@
 package blue.cn.com.mvp.mvp.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
+import blue.cn.com.mvp.R
+import blue.cn.com.mvp.util.TransitionMode
 
-abstract class SimpleActivity : AppCompatActivity(){
-    abstract fun getLayoutId() : Int
-    abstract fun initDatas()
-    abstract fun setupUI()
-    abstract fun events()
+abstract class SimpleActivity : MvpActivity(){
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(getLayoutId())
@@ -15,4 +13,5 @@ abstract class SimpleActivity : AppCompatActivity(){
         setupUI()
         events()
     }
+
 }

@@ -3,12 +3,14 @@ package blue.cn.com.openeyes.fragment
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import blue.cn.com.mvp.util.bindView
 import blue.cn.com.openeyes.R
+import com.blankj.utilcode.util.LogUtils
 import com.trello.rxlifecycle2.components.support.RxFragment
 import org.jetbrains.anko.find
 
@@ -36,6 +38,7 @@ class TextFragment : RxFragment() {
         super.onAttach(context)
         val bundle = arguments
         param1 = bundle!!.getString(ARG_PARAM1)
+        Log.e("heping","$param1 onAttach")
     }
 //    override fun onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
@@ -50,7 +53,61 @@ class TextFragment : RxFragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_text, container, false)
         view.find<TextView>(R.id.fragment_text).text = param1
+        Log.e("heping","$param1 onCreateView")
         return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Log.e("heping","$param1 onCreate")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Log.e("heping","$param1 onActivityCreated")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.e("heping","$param1 onStart")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("heping","$param1 onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.e("heping","$param1 onPause")
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.e("heping","$param1 onStop")
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        Log.e("heping","$param1 onDestroyView")
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e("heping","$param1 onDetach")
+    }
+
+    /**
+     * 事物 show、hint调用生命周期
+     */
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.e("onHiddenChanged","$param1 onHiddenChanged $hidden")
+    }
+
+    override fun setUserVisibleHint(isVisibleToUser: Boolean) {
+        super.setUserVisibleHint(isVisibleToUser)
+        Log.e("setUserVisibleHint","$param1 setUserVisibleHint $isVisibleToUser")
     }
     companion object {
         /**

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="tab_indicator">#d6d6d6</color>
+    <color name="tab_tv_normal">#999999</color>
+    <color name="tab_tv_selected">#fab42c</color>
+    <color name="tab_bg">#fcfcfc</color>
+    <color name="tab_div">#d6d6d6</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="black_98">#989898</color>
+    <color name="gray_B7B9B8">#B7B9B8</color>
+
+    <color name="black_444444">#444444</color>
+</resources>

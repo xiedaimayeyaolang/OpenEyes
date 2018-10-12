@@ -14,7 +14,7 @@ ext {
 
     android_application_Id = 'com.blueooo.miao'
     android_complileSdk_version = 26
-    android_minSdk_version = 17
+    android_minSdk_version = 21
     android_targetSdkversion = 27
     android_app_versionName = '1'
     android_app_versionCode = 1

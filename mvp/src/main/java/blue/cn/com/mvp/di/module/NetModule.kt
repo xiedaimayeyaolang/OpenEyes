@@ -1,10 +1,7 @@
 package blue.cn.com.mvp.di.module
 
 import android.content.Context
-import blue.cn.com.mvp.net.ApiClient
-import blue.cn.com.mvp.net.ApiStores
-import blue.cn.com.mvp.net.Interceptors
-import blue.cn.com.mvp.net.Url
+import blue.cn.com.mvp.net.*
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -26,16 +23,17 @@ class NetModule(val context: Context) {
     @Provides
     fun provideB() : Interceptors = object : Interceptors{
         override fun add(): List<Interceptor> {
+            val interceptor = RequestInterceptor()
 //            val netWorkInterceptor = NetWorkInterceptor(context)
 //            val interceptor = BlueInterceptor(null)
 //            return listOf(netWorkInterceptor,interceptor)
-            return listOf()
+            return listOf(interceptor)
         }
     }
     @Provides
     fun provideU() : Url = object : Url {
         override fun getBaseUrl(): String {
-            return "http://app.meeoh.cn/"
+            return "http://baobab.kaiyanapp.com/"
         }
     }
     @Provides
