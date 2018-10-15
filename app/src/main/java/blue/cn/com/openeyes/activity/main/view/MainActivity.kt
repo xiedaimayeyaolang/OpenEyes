@@ -1,8 +1,11 @@
 package blue.cn.com.openeyes.activity.main.view
 
+import android.app.Activity
+import android.content.Intent
 import android.support.design.widget.TabLayout
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -10,20 +13,21 @@ import android.widget.TextView
 import blue.cn.com.mvp.BaseApp
 import blue.cn.com.mvp.di.module.NetModule
 import blue.cn.com.mvp.mvp.view.BaseActivity
+import blue.cn.com.mvp.util.RouterMap
 import blue.cn.com.mvp.util.bindView
-import blue.cn.com.mvp.util.onClick
+import blue.cn.com.mvp.util.toast
 import blue.cn.com.openeyes.R
 import blue.cn.com.openeyes.Test
-import blue.cn.com.openeyes.activity.TempActivity
 import blue.cn.com.openeyes.activity.main.contract.IMainContract
 import blue.cn.com.openeyes.activity.main.presenter.MainPresenter
 import blue.cn.com.openeyes.di.DaggerActivityComponent
+//import blue.cn.com.openeyes.di.DaggerActivityComponent
 import blue.cn.com.openeyes.di.MainModule
 import blue.cn.com.openeyes.fragment.TextFragment
+import com.alibaba.android.arouter.launcher.ARouter
 import com.trello.rxlifecycle2.LifecycleTransformer
 import com.trello.rxlifecycle2.android.ActivityEvent
 import org.jetbrains.anko.find
-import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayout.OnTabSelectedListener {
@@ -56,11 +60,15 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
     override fun initDatas() {
 //        Log.e("heping",test.toString())
 //        text.onClick { mPresenter.test() }
+        fragments = mutableListOf()
+        fragments.add(getHomeFragment())
 
     }
-
+    private fun getHomeFragment() : Fragment{
+        return ARouter.getInstance().build(RouterMap.HOME_FRAGMENT).withString("value","首页").navigation() as Fragment
+    }
     override fun setupUI() {
-        fragments = mutableListOf()
+
         for (i in tabIcons.indices) {
             val tab = main_tab.newTab()
             val view = layoutInflater.inflate(R.layout.tab_custom, null)
@@ -83,19 +91,47 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
         mPresenter.test()
     }
 
-    override fun inject() =
-            DaggerActivityComponent
-                    .builder()
-                    .appComponent(BaseApp.appComponent)
-                    .netModule(NetModule(this))
-                    .build().plus(MainModule(this)).inject(this)
+    override fun inject(){
+        DaggerActivityComponent.builder()
+                .appComponent(BaseApp.appComponent)
+                .netModule(NetModule(this))
+                .build().plus(MainModule(this)).inject(this)
+    }
+//    =
+//            DaggerActivityComponent
+//                    .builder()
+//                    .appComponent(BaseApp.appComponent)
+//                    .netModule(NetModule(this))
+//                    .build().plus(MainModule(this)).inject(this)
 
     override fun events() {
         main_tab.addOnTabSelectedListener(this)
-        tab_main_center.onClick { startActivity<TempActivity>() }
+//        tab_main_center.setOnClickListener { startActivity<TempActivity>() }
+        tab_main_center.setOnClickListener {
+            ARouter.getInstance().build(RouterMap.MAIN_ACTIVITY)
+                    .withString("name","this is value")
+                    .navigation(this,100)
+        }
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK){
+            when(requestCode){
+                100 ->{
+                    if (data != null) {
+                        toast(data.getStringExtra("result"))
+                    }
+                }
+                else -> {
+
+                }
+            }
+        }
+
+
+    }
     override fun onTabReselected(tab: TabLayout.Tab?) {
     }
 
@@ -133,5 +169,8 @@ class MainActivity : BaseActivity<MainPresenter>(), IMainContract.View, TabLayou
         }
         currentFragment = fragment
     }
-
+    override fun onDestroy() {
+        Log.e("heping","onDestory")
+        super.onDestroy()
+    }
 }

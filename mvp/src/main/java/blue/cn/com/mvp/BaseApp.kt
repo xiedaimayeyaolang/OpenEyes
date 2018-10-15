@@ -9,6 +9,7 @@ import blue.cn.com.mvp.di.component.DaggerAppComponent
 import blue.cn.com.mvp.di.module.AppModule
 import blue.cn.com.mvp.util.Contants
 import blue.cn.com.mvp.util.SpUtil
+import com.alibaba.android.arouter.launcher.ARouter
 import com.blankj.utilcode.util.Utils
 import com.facebook.drawee.backends.pipeline.Fresco
 import com.facebook.imagepipeline.core.ImagePipelineConfig
@@ -17,18 +18,21 @@ import io.realm.RealmConfiguration
 import me.jessyan.autosize.AutoSizeConfig
 import me.jessyan.autosize.external.ExternalAdaptManager
 import me.jessyan.autosize.internal.CustomAdapt
+import me.jessyan.autosize.utils.LogUtils.isDebug
 
-class BaseApp : MultiDexApplication(){
+open class BaseApp : MultiDexApplication(){
 
     override fun onCreate() {
         super.onCreate()
         instance = this
         appComponent = DaggerAppComponent.builder().appModule(AppModule(instance)).build()
-        initFresco()
+
         Utils.init(this)
 //        LogUtils.getConfig().setGlobalTag("")
         SpUtil.init(this)
+        initFresco()
         initAutoSize()
+        initArouter()
     }
     private fun initFresco() {
         val config = ImagePipelineConfig.newBuilder(this)
@@ -36,7 +40,13 @@ class BaseApp : MultiDexApplication(){
                 .build()
         Fresco.initialize(this, config)
     }
-
+    open fun initArouter(){
+        if (isDebug()) {           // These two lines must be written before init, otherwise these configurations will be invalid in the init process
+            ARouter.openLog()     // Print log
+            ARouter.openDebug()   // Turn on debugging mode (If you are running in InstantRun mode, you must turn on debug mode! Online version needs to be closed, otherwise there is a security risk)
+        }
+        ARouter.init(instance)
+    }
     /**
      * 初始化initAutoSize ，manifest文件中修改设计稿尺寸
      */

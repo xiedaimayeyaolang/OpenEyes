@@ -14,7 +14,6 @@ import java.util.zip.CRC32;
  */
 
 public class HashUtil {
-
     public static final Charset UTF_8 = Charset.forName("UTF-8");
     /**
      * 16进制的字符数组

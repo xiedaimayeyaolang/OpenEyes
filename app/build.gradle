@@ -31,8 +31,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     kapt rootProject.ext.components["permissionsdispatcher-processor"]
-
     implementation project(':mvp')
+    if (isModule.toBoolean()) {
+        implementation project(':arouter')
+        implementation project(':home')
+    }
+//    annotationProcessor rootProject.ext.components["arouter-compiler"]
     kapt rootProject.ext.components["dagger-compiler"]
     api rootProject.ext.dependencies["design"]
+
 }
